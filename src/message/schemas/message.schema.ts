@@ -6,7 +6,7 @@ export type MessageDocument = HydratedDocument<Message>;
 
 @Schema({ timestamps: true })
 export class Message {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Conversation' })
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'Conversation' })
   conversationId: Conversation;
 
   @Prop()

@@ -35,9 +35,8 @@ export class MessageService {
       createMessageDto.conversationId,
     );
 
-    if (!conversation) {
+    if (!conversation)
       throw new HttpException('Not found conversation', HttpStatus.NOT_FOUND);
-    }
 
     const messages: Array<object> = await this.messageModel.find({
       conversationId: createMessageDto.conversationId,
@@ -64,8 +63,6 @@ export class MessageService {
       content: this.configService.get<string>('openai.contentFirst'),
     });
 
-    await this.messageModel.create(createMessageDto);
-
     const aiMess = await this.openaiService.generateText(requestMessage);
 
     const messageDto: MessageDto = {
@@ -76,7 +73,12 @@ export class MessageService {
       isDeleted: false,
     };
 
-    await this.messageModel.create(messageDto);
+    conversation.messages.push(
+      (await this.messageModel.create(createMessageDto))._id,
+      (await this.messageModel.create(messageDto))._id,
+    );
+
+    conversation.save();
 
     return aiMess;
   }

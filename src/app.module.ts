@@ -18,11 +18,18 @@ import { OpenaiModule } from './openai/openai.module';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('database.uri'),
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        return {
+          uri: configService.get<string>('database.uri'),
+          connectionFactory: async (connection) => {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            connection.plugin(require('mongoose-autopopulate'));
+            return connection;
+          },
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        };
+      },
       inject: [ConfigService],
     }),
     MessageModule,
