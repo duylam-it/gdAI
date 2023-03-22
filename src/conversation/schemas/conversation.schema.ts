@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import mongooseAutopopulate from 'mongoose-autopopulate';
 
 export type ConversationDocument = HydratedDocument<Conversation>;
 
@@ -21,5 +20,7 @@ export class Conversation {
   messages: Array<mongoose.Types.ObjectId>;
 }
 
-export const ConversationShema =
-  SchemaFactory.createForClass(Conversation).plugin(mongooseAutopopulate);
+export const ConversationShema = SchemaFactory.createForClass(
+  Conversation,
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+).plugin(require('mongoose-autopopulate'));
