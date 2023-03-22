@@ -21,11 +21,6 @@ import { OpenaiModule } from './openai/openai.module';
       useFactory: async (configService: ConfigService) => {
         return {
           uri: configService.get<string>('database.uri'),
-          connectionFactory: async (connection) => {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            connection.plugin(require('mongoose-autopopulate'));
-            return connection;
-          },
           useNewUrlParser: true,
           useUnifiedTopology: true,
         };
