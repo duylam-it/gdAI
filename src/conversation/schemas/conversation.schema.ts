@@ -23,4 +23,4 @@ export class Conversation {
 export const ConversationShema = SchemaFactory.createForClass(
   Conversation,
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-).plugin(require('mongoose-autopopulate'));
+);
