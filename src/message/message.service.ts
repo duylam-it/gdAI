@@ -9,6 +9,7 @@ import {
 import { Conversation } from 'src/conversation/schemas/conversation.schema';
 import { OpenaiService } from 'src/openai/openai.service';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { MessageDto } from './dto/message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { Message } from './schemas/message.schema';
 
@@ -35,7 +36,7 @@ export class MessageService {
     );
 
     if (!conversation) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Not found conversation', HttpStatus.NOT_FOUND);
     }
 
     const messages: Array<object> = await this.messageModel.find({
@@ -43,7 +44,7 @@ export class MessageService {
     });
 
     const requestMessage: Array<ChatCompletionRequestMessage> = messages.map(
-      (message: CreateMessageDto) => {
+      (message: MessageDto) => {
         return {
           role: message.isAssistantMessage
             ? ChatCompletionRequestMessageRoleEnum.Assistant
@@ -67,10 +68,15 @@ export class MessageService {
 
     const aiMess = await this.openaiService.generateText(requestMessage);
 
-    createMessageDto.isAssistantMessage = true;
-    createMessageDto.content = aiMess;
+    const messageDto: MessageDto = {
+      conversationId: createMessageDto.conversationId,
+      content: aiMess,
+      isAssistantMessage: true,
+      type: 'text',
+      isDeleted: false,
+    };
 
-    await this.messageModel.create(createMessageDto);
+    await this.messageModel.create(messageDto);
 
     return aiMess;
   }

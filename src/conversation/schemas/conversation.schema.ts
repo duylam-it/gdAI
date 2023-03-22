@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Message } from 'src/message/schemas/message.schema';
 
 export type ConversationDocument = HydratedDocument<Conversation>;
 
@@ -10,6 +11,9 @@ export class Conversation {
 
   @Prop()
   isDeleted: boolean;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Message' })
+  messages: Array<Message>;
 }
 
 export const ConversationShema = SchemaFactory.createForClass(Conversation);

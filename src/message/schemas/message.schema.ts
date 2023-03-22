@@ -12,13 +12,13 @@ export class Message {
   @Prop()
   content: string;
 
-  @Prop()
+  @Prop({ default: false })
   isAssistantMessage: boolean;
 
-  @Prop()
+  @Prop({ default: 'text' })
   type: string;
 
-  @Prop()
+  @Prop({ default: false })
   isDeleted: boolean;
 }
 
