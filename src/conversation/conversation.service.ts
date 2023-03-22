@@ -35,7 +35,6 @@ export class ConversationService {
         conversationId: findConversationDto.id,
       }),
     };
-    console.log(conversationAndMessage);
     return conversationAndMessage;
   }
 

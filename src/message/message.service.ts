@@ -63,7 +63,6 @@ export class MessageService {
       content: this.configService.get<string>('openai.contentFirst'),
     });
 
-    console.log(requestMessage);
     await this.messageModel.create(createMessageDto);
 
     const aiMess = await this.openaiService.generateText(requestMessage);
