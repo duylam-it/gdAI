@@ -2,7 +2,7 @@ import { IsBooleanString, IsNotEmpty, Length } from 'class-validator';
 
 export class CreateConversationDto {
   @IsNotEmpty()
-  @Length(1, 10)
+  @Length(5, 50)
   name: string;
 
   @IsBooleanString()
