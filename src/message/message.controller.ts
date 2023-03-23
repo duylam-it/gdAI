@@ -32,8 +32,13 @@ export class MessageController {
   }
 
   @Get()
-  findAll() {
-    return this.messageService.findAll();
+  async findAll(@Request() req: any, @Response() res: any) {
+    return res.json({
+      statusCode: 200,
+      data: await this.messageService.findAll(),
+      timestamp: new Date(),
+      path: req.path,
+    });
   }
 
   @Get(':id')

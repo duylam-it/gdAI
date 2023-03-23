@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Message } from 'src/message/schemas/message.schema';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { FindConversationDto } from './dto/find-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
@@ -12,7 +11,6 @@ export class ConversationService {
   constructor(
     @InjectModel(Conversation.name)
     private conversationModel: Model<Conversation>,
-    @InjectModel(Message.name) private messageModel: Model<Message>,
   ) {}
 
   async create(
@@ -21,8 +19,8 @@ export class ConversationService {
     return await this.conversationModel.create(createConversationDto);
   }
 
-  findAll() {
-    return `This action returns all Conversation`;
+  async findAll(): Promise<object> {
+    return await this.conversationModel.find();
   }
 
   async findOne(findConversationDto: FindConversationDto): Promise<object> {
@@ -35,6 +33,7 @@ export class ConversationService {
     return conversation;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateConversationDto: UpdateConversationDto) {
     return `This action updates a #${id} Conversation`;
   }

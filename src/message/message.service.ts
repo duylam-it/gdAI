@@ -84,13 +84,14 @@ export class MessageService {
   }
 
   async findAll() {
-    return 'áda';
+    return this.messageModel.find();
   }
 
   findOne(id: number) {
     return `This action returns a #${id} message`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateMessageDto: UpdateMessageDto) {
     return `This action updates a #${id} message`;
   }
